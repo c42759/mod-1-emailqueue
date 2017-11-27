@@ -13,6 +13,8 @@ if (isset($_POST["submitUninstall"]) && user::isOwner($authData)) {
 		while ($db->more_results() && $db->next_result()) {;} // flush multi_queries
 
 		unlink("class/class.emailqueue.php");
+		unlink("cron/mod-emailqueue-cron.php");
+		unlink("../pages/mod-emailqueue-api.php");
 
 		$mdl = bo3::c2r(
 			[

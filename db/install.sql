@@ -1,10 +1,35 @@
 INSERT INTO `{c2r-prefix}_modules` (`name`, `folder`, `code`, `sort`) VALUES ("{c2r-mod-name}", "{c2r-mod-folder}", "{c2r-mod-code}", 0);
 
-CREATE TABLE IF NOT EXISTS `{c2r-prefix}_example` (
-	`id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `{c2r-prefix}_email_queue_settings` (
+	`id` int(11) NOT NULL,
 	`name` varchar(255) NOT NULL,
-	`folder` varchar(255) NOT NULL,
-	`sort` int(11) NOT NULL DEFAULT '0',
-	PRIMARY KEY (`id`),
-	UNIQUE KEY `folder` (`folder`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+	`value` text NOT NULL,
+	`date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`date_update` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+INSERT INTO `{c2r-prefix}_email_queue_settings` (`name`, `value`) VALUES
+('delay', '300'),
+('error_times_limit', '5'),
+('server_email', 'hello@one-shift.com'),
+('server_smtp', 'mail.yourdomain.here'),
+('server_username', 'your@email.here'),
+('server_password', 'yourpassword'),
+('server_port', 'connection-port eg.: 25'),
+('server_secure', 'connection-type eg.: plain'),
+('server_debug', '1');
+
+CREATE TABLE `{c2r-prefix}_email_queue` (
+	`id` int(11) NOT NULL,
+	`from` varchar(255) NOT NULL,
+	`to` varchar(255) NOT NULL,
+	`cc` varchar(255) NOT NULL,
+	`bcc` varchar(255) NOT NULL,
+	`subject` varchar(255) NOT NULL,
+	`content` text NOT NULL,
+	`attachments` text NOT NULL,
+	`status` tinyint(1) NOT NULL DEFAULT '0',
+	`date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`date_update` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

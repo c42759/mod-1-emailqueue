@@ -9,30 +9,35 @@ class emailqueue {
 	protected $subject;
 	protected $content;
 	protected $attachments = [];
+	protected $priority = 0;
 	protected $status = false;
 	protected $date;
 	protected $date_update;
 
-	function __construct() {}
+	public function __construct() {}
 
-	function setId($i) {
-		$this->id = $i;
+	public function setId($i) {
+		$this->id = (int)$i;
 	}
 
-	function setSubject($s) {
+	public function setSubject($s) {
 		$this->subject = $s;
 	}
 
-	function setContent($c) {
+	public function setContent($c) {
 		$this->content = $c;
 	}
 
-	function setAttachments($a) {
+	public function setAttachments($a) {
 		$this->attachments = json_encode($a);
 	}
 
-	function setStatus($s) {
-		$this->status = $s;
+	public function setPriority($p) {
+		$this->priority = (int)$p;
+	}
+
+	public function setStatus($s) {
+		$this->status = (bool)$s;
 	}
 
 	public function setDate($d = null) {
@@ -43,7 +48,7 @@ class emailqueue {
 		$this->date_update = ($d !== null) ? $d : date("Y-m-d H:i:s", time());
 	}
 
-	function insert() {
+	public function insert() {
 		global $cfg, $db;
 
 		$query = sprintf(
@@ -68,13 +73,13 @@ class emailqueue {
 		return false;
 	}
 
-	function update() {
+	public function update() {
 		global $cfg, $db;
 
 		$query = sprintf();
 	}
 
-	function delete() {
+	public function delete() {
 		global $cfg, $db, $authData;
 
 		$email = new emailqueue();
@@ -105,7 +110,7 @@ class emailqueue {
 		return get_object_vars($this);
 	}
 
-	function returnOneEntry() {
+	public function returnOneEntry() {
 		global $cfg, $db;
 
 		$query = sprintf(
@@ -122,7 +127,7 @@ class emailqueue {
 		return false;
 	}
 
-	function returnAllEntries() {
+	public function returnAllEntries() {
 		global $cfg, $db;
 
 		$query = sprintf(
@@ -145,5 +150,77 @@ class emailqueue {
 			}
 		}
 		return false;
+	}
+
+	public static function getSettings () {
+		global $cfg, $db;
+
+		$query = sprintf("SELECT * FROM %s_email_queue_settings WHERE true",
+			$cfg->db->prefix
+		);
+		$source = $db->query($query);
+
+		while ($data = $source->fetch_object()) {
+			if (!isset($list)) {
+				$list = [];
+			}
+
+			array_push($list, $data);
+		}
+
+		foreach ($list as $index => $value) {
+			if (!isset($toReturn)) {
+				$toReturn = [];
+			}
+
+			$toReturn[$value->name] = $value->value;
+		}
+
+		return isset($toReturn) ? $toReturn : false;
+	}
+
+	public static function sendEmail ($settings = [], $to, $cc, $bcc, $replyTo, $subject, $message, $attach = []) {
+		$mail = new PHPMailer();
+
+		$mail->IsSMTP();
+		$mail->CharSet = "UTF-8";
+		$mail->Host = $settings["server_smtp"];
+		$mail->SMTPDebug = $settings["server_debug"];
+		$mail->SMTPAuth = TRUE;
+		$mail->Port = $settings["server_port"];
+		$mail->SMTPSecure = $settings["server_secure"];
+		$mail->Username =  $settings["server_username"];
+		$mail->Password = $settings["server_password"];
+
+		$mail->SetFrom($settings["server_username"], $settings["server_email_name"]); // ADD SENDER
+		$mail->Subject = $subject; // ADD SUBJECT
+		$mail->AddAddress($to, "--"); // ADD DESTINATARY
+
+		// ADD CC EMAIL LIST
+		foreach($cc as $email => $name) {
+			$mail->AddCC($email, $name);
+		}
+
+		// ADD BCC EMAIL LIST
+		foreach($bcc as $email => $name) {
+			$mail->AddBCC($email, $name);
+		}
+
+		$mail->AddReplyTo($settings["server_email"]);
+		$mail->MsgHTML($message);
+
+		// ADD ATTACH LIST
+		if (count($attach) > 0) {
+			foreach ($attach as $file) {
+				if (file_exists($file)) {
+					$mail->addAttachment($file, basename($file));
+				}
+			}
+		}
+
+		if (!$mail->Send()) {
+			return FALSE;
+		}
+		return TRUE;
 	}
 }
