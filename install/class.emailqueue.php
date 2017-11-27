@@ -52,7 +52,7 @@ class emailqueue {
 		global $cfg, $db;
 
 		$query = sprintf(
-			"INSERT INTO %s_email_queue (`from`, `to`, `cc`, `bcc`, `subject`, `content`, `attachments`, `status`, `date`, `date_update`) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')",
+			"INSERT INTO %s_email_queue (`from`, `to`, `cc`, `bcc`, `subject`, `content`, `attachments`, `priority`, `status`, `date`, `date_update`) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')",
 			$cfg->db->prefix,
 			$db->real_escape_string($this->from),
 			$db->real_escape_string($this->to),
@@ -61,6 +61,7 @@ class emailqueue {
 			$db->real_escape_string($this->subject),
 			$db->real_escape_string($this->content),
 			$db->real_escape_string($this->attachments),
+			$this->priority,
 			$this->status,
 			$this->date,
 			$this->date_update
@@ -76,7 +77,24 @@ class emailqueue {
 	public function update() {
 		global $cfg, $db;
 
-		$query = sprintf();
+		$query = sprintf(
+			"UPDATE %s_email_queue SET `from` = '%s', `to` = '%s', `cc` = '%s', `bcc` = '%s', `subject` = '%s', `content` = '%s', `attachments` = '%s', `status` = '%s', date = '%s', date_update = '%s' WHERE id = '%s'",
+			$cfg->db->prefix,
+			$db->real_escape_string($this->from),
+			$db->real_escape_string($this->to),
+			$db->real_escape_string($this->cc),
+			$db->real_escape_string($this->bcc),
+			$db->real_escape_string($this->subject),
+			$db->real_escape_string($this->content),
+			$db->real_escape_string($this->attachments),
+			$this->priority,
+			$this->status,
+			$this->date,
+			$this->date_update,
+			$this->id
+		);
+
+		return $db->query($query);
 	}
 
 	public function delete() {
