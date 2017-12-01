@@ -4,12 +4,13 @@ class emailqueue {
 	protected $id;
 	protected $from;
 	protected $to;
-	protected $cc;
-	protected $bcc;
+	protected $cc = "";
+	protected $bcc = "";
 	protected $subject;
 	protected $content;
 	protected $attachments = [];
 	protected $priority = 0;
+	protected $failure = 0;
 	protected $status = false;
 	protected $date;
 	protected $date_update;
@@ -18,6 +19,22 @@ class emailqueue {
 
 	public function setId($i) {
 		$this->id = (int)$i;
+	}
+
+	public function setFrom($f) {
+		$this->from = $f;
+	}
+
+	public function setTo($t) {
+		$this->to = $t;
+	}
+
+	public function setCc($c) {
+		$this->cc = $c;
+	}
+
+	public function setBcc($b) {
+		$this->bcc = $c;
 	}
 
 	public function setSubject($s) {
@@ -77,24 +94,7 @@ class emailqueue {
 	public function update() {
 		global $cfg, $db;
 
-		$query = sprintf(
-			"UPDATE %s_email_queue SET `from` = '%s', `to` = '%s', `cc` = '%s', `bcc` = '%s', `subject` = '%s', `content` = '%s', `attachments` = '%s', `status` = '%s', date = '%s', date_update = '%s' WHERE id = '%s'",
-			$cfg->db->prefix,
-			$db->real_escape_string($this->from),
-			$db->real_escape_string($this->to),
-			$db->real_escape_string($this->cc),
-			$db->real_escape_string($this->bcc),
-			$db->real_escape_string($this->subject),
-			$db->real_escape_string($this->content),
-			$db->real_escape_string($this->attachments),
-			$this->priority,
-			$this->status,
-			$this->date,
-			$this->date_update,
-			$this->id
-		);
-
-		return $db->query($query);
+		$query = sprintf();
 	}
 
 	public function delete() {
@@ -122,7 +122,6 @@ class emailqueue {
 
 		return ($email->returnOneEntry() == FALSE) ? TRUE : FALSE;
 	}
-
 
 	public function returnObject() {
 		return get_object_vars($this);
@@ -170,6 +169,19 @@ class emailqueue {
 		return false;
 	}
 
+	public function addFailure () {
+		global $cfg, $db;
+
+		$query = sprintf(
+			"UPDATE %s_email_queue SET failure = failure + 1, date_update = '%s' WHERE id = '%s'",
+			$cfg->db->prefix,
+			$this->date_update,
+			$this->id
+		);
+
+		return $db->query($query);
+	}
+
 	public static function getSettings () {
 		global $cfg, $db;
 
@@ -215,13 +227,13 @@ class emailqueue {
 		$mail->AddAddress($to, "--"); // ADD DESTINATARY
 
 		// ADD CC EMAIL LIST
-		foreach($cc as $email => $name) {
-			$mail->AddCC($email, $name);
+		foreach($cc as $index => $email) {
+			$mail->AddCC($email);
 		}
 
 		// ADD BCC EMAIL LIST
-		foreach($bcc as $email => $name) {
-			$mail->AddBCC($email, $name);
+		foreach($bcc as $index => $email) {
+			$mail->AddBCC($email);
 		}
 
 		$mail->AddReplyTo($settings["server_email"]);
