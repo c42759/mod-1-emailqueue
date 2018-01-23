@@ -12,8 +12,8 @@ $source = $db->query($query);
 if ($source->num_rows == 0) {
 	// GET USER FROM QUEUE IF DOESNT EXIST ANY EMAIL WITH PRIORITY
 	$query = sprintf(
-		"SELECT * FROM %s_email_queue WHERE status = %s AND date <= '%s' AND failure < %s ORDER BY %s LIMIT %s",
-		$cfg->db->prefix, 0, date('Y-m-d H:i:s', time() - ($settings["delay"] * 60)), $settings["error_times_limit"], "RAND()", 1
+		"SELECT * FROM %s_email_queue WHERE status = %s AND date <= '%s' ORDER BY %s LIMIT %s",
+		$cfg->db->prefix, 0, date('Y-m-d H:i:s', time() + ($settings["delay"] * 60)), "RAND()", 1
 	);
 
 	$source = $db->query($query);
@@ -34,11 +34,6 @@ while ($data = $source->fetch_object()) {
 		);
 
 		$db->query($query);
-	} else {
-		$email_failure = new emailqueue();
-		$email_failure->setId($data->id);
-		$email_failure->setDateUpdate();
-		$email_failure->addFailure();
 	}
 }
 

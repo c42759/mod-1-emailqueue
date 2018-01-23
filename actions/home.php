@@ -35,12 +35,12 @@ if ($db_list !== false) {
 
 $mdl = bo3::c2r([
 	'list' => isset($list) ? $list : '',
-
 	'lg-from' => $mdl_lang['from'],
 	'lg-cc' => $mdl_lang['cc'],
 	'lg-bcc' => $mdl_lang['bcc'],
 	'lg-date-updated' => $mdl_lang['date-update'],
 	'lg-btn-add' => $mdl_lang['btn-add'],
+	'lg-btn-settings' => $mdl_lang['btn-settings'],
 	'lg-btn-edit' => $mdl_lang['btn-edit'],
 	'lg-btn-view' => $mdl_lang['btn-view']
 ],bo3::mdl_load("templates/home.tpl"));
