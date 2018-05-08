@@ -5,7 +5,7 @@ CREATE TABLE `{c2r-prefix}_email_queue_settings` (
 	`name` varchar(255) NOT NULL,
 	`value` text NOT NULL,
 	`date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	`date_update` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+	`date_update` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
