@@ -8,6 +8,11 @@ CREATE TABLE `{c2r-prefix}_email_queue_settings` (
 	`date_update` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+ALTER TABLE `{c2r-prefix}_email_queue_settings`
+	ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `{c2r-prefix}_email_queue_settings`
+	MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 INSERT INTO `{c2r-prefix}_email_queue_settings` (`name`, `value`) VALUES
 ('delay', '300'),
@@ -30,6 +35,13 @@ CREATE TABLE `{c2r-prefix}_email_queue` (
 	`content` text NOT NULL,
 	`attachments` text NOT NULL,
 	`status` tinyint(1) NOT NULL DEFAULT '0',
+	`priority` int(11) NOT NULL,
 	`date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	`date_update` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+	`date_update` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `{c2r-prefix}_email_queue`
+	ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `{c2r-prefix}_email_queue`
+	MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
