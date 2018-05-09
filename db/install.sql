@@ -19,6 +19,7 @@ INSERT INTO `{c2r-prefix}_email_queue_settings` (`name`, `value`) VALUES
 ('error_times_limit', '5'),
 ('server_email_name', 'One:Shift'),
 ('server_email', 'hello@one-shift.com'),
+('reply_to', 'hello@one-shift.com'),
 ('server_smtp', 'mail.yourdomain.here'),
 ('server_username', 'your@email.here'),
 ('server_password', 'yourpassword'),

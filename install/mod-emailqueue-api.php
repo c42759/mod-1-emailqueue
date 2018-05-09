@@ -24,7 +24,7 @@ while ($data = $source->fetch_object()) {
 	$data->bcc = explode(",", $data->bcc);
 	$data->attachments = !empty($data->attachments) ? json_decode($data->attachments) : [];
 
-	$send = emailqueue::sendEmail($settings, $data->to, $data->cc, $data->bcc, $data->from, $data->subject, $data->content, $data->attachments);
+	$send = emailqueue::sendEmail($settings, $data->to, $data->cc, $data->bcc, (isset($settings["reply_to"]) ? $settings["reply_to"] : FALSE), $data->subject, $data->content, $data->attachments);
 
 	if ($send) {
 		// UPDATE QUEUE STATUS TO TRUE
@@ -38,3 +38,4 @@ while ($data = $source->fetch_object()) {
 }
 
 $tpl = "";
+

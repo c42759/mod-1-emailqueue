@@ -272,7 +272,7 @@ class emailqueue {
 		return (isset($toReturn)) ? $toReturn : false;
 	}
 
-	public static function sendEmail ($settings = [], $to, $cc, $bcc, $replyTo, $subject, $message, $attach = []) {
+	public static function sendEmail ($settings = [], $to, $cc, $bcc, $replyTo = FALSE, $subject, $message, $attach = []) {
 		$mail = new PHPMailer();
 
 		$mail->IsSMTP();
@@ -307,7 +307,12 @@ class emailqueue {
 			$mail->AddBCC($email);
 		}
 
-		$mail->AddReplyTo($settings["server_email"]);
+		if ($replyTo != FALSE) {
+			$mail->AddReplyTo($replyTo);
+		} else {
+			$mail->AddReplyTo($settings["server_email"]);
+		}
+		
 		$mail->MsgHTML($message);
 
 		// ADD ATTACH LIST
