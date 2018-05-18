@@ -1,6 +1,6 @@
 <?php
 
-$settings = emailqueue::returnAllSettings();
+$settings = bo3_1_emailqueue::returnAllSettings();
 foreach ($settings as $index => $item) {
 	if (!isset($list)) {
 		$list = "";

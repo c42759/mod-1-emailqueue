@@ -6,7 +6,7 @@
 
 bo3::dump(json_encode(['teste', 'mais', 'testes']));
 
-$email = new emailqueue();
+$email = new bo3_1_emailqueue();
 $db_list = $email->returnAllEntries();
 
 if ($db_list !== false) {

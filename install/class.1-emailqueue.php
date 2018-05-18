@@ -1,6 +1,6 @@
 <?php
 
-class emailqueue {
+class bo3_1_emailqueue {
 	protected $id;
 	protected $from;
 	protected $to;
@@ -13,7 +13,9 @@ class emailqueue {
 	protected $failure = 0;
 	protected $status = false;
 	protected $date;
-	protected $date_update;
+
+	protected $name;
+	protected $value;
 
 	public function __construct() {}
 
@@ -41,8 +43,7 @@ class emailqueue {
 		$this->subject = $s;
 	}
 
-	public function setContent($t, $d) {
-		$this->title = $t;
+	public function setContent($d) {
 		$this->content = $d;
 	}
 
@@ -62,15 +63,16 @@ class emailqueue {
 		$this->date = ($d !== null) ? $d : date("Y-m-d H:i:s", time());
 	}
 
-	public function setDateUpdate($d = null) {
-		$this->date_update = ($d !== null) ? $d : date("Y-m-d H:i:s", time());
+	public function setSetting ($n, $v) {
+		$this->name = $n;
+		$this->value = $v;
 	}
 
 	public function insert() {
 		global $cfg, $db;
 
 		$query = sprintf(
-			"INSERT INTO %s_email_queue (`from`, `to`, `cc`, `bcc`, `subject`, `content`, `attachments`, `priority`, `status`, `date`, `date_update`) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')",
+			"INSERT INTO %s_1_email_queue (`from`, `to`, `cc`, `bcc`, `subject`, `content`, `attachments`, `priority`, `status`, `date`) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')",
 			$cfg->db->prefix,
 			$db->real_escape_string($this->from),
 			$db->real_escape_string($this->to),
@@ -81,8 +83,7 @@ class emailqueue {
 			$db->real_escape_string($this->attachments),
 			$this->priority,
 			$this->status,
-			$this->date,
-			$this->date_update
+			$this->date
 		);
 
 		if ($db->query($query)) {
@@ -113,7 +114,7 @@ class emailqueue {
 		$trash->insert();
 
 		$query = sprintf(
-			"DELETE FROM %s_email_queue WHERE id = %s",
+			"DELETE FROM %s_1_email_queue WHERE id = %s",
 			$cfg->db->prefix,
 			$cfg->db->prefix,
 			$this->id
@@ -132,7 +133,7 @@ class emailqueue {
 		global $cfg, $db;
 
 		$query = sprintf(
-			"SELECT * FROM %s_email_queue WHERE id = %s LIMIT 1",
+			"SELECT * FROM %s_1_email_queue WHERE id = %s LIMIT 1",
 			$cfg->db->prefix,
 			$this->id
 		);
@@ -149,7 +150,7 @@ class emailqueue {
 		global $cfg, $db;
 
 		$query = sprintf(
-			"SELECT * FROM %s_email_queue WHERE true",
+			"SELECT * FROM %s_1_email_queue WHERE true",
 			$cfg->db->prefix
 		);
 		$source = $db->query($query);
@@ -174,22 +175,21 @@ class emailqueue {
 		global $cfg, $db;
 
 		$query = sprintf(
-			"UPDATE %s_email_queue SET failure = failure + 1, date_update = '%s' WHERE id = '%s'",
+			"UPDATE %s_1_email_queue SET failure = failure + 1 WHERE id = '%s'",
 			$cfg->db->prefix,
-			$this->date_update,
 			$this->id
 		);
 
 		return $db->query($query);
 	}
+
 	public function insertSetting () {
 		global $cfg, $db;
-		$query = sprintf("INSERT INTO %s_email_queue_settings (`name`, `value`, `date`, `date_update`) VALUES ('%s', '%s', '%s', '%s')",
+		$query = sprintf("INSERT INTO %s_1_email_queue_settings (`name`, `value`, `date`) VALUES ('%s', '%s', '%s')",
 			$cfg->db->prefix,
-			$db->real_escape_string($this->title),
-			$db->real_escape_string($this->content),
-			$this->date,
-			$this->date_update
+			$db->real_escape_string($this->name),
+			$db->real_escape_string($this->value),
+			$this->date
 		);
 		if ($db->query($query)){
 			return true;
@@ -201,11 +201,10 @@ class emailqueue {
 		global $cfg, $db;
 
 		$query = sprintf(
-			"UPDATE %s_email_queue_settings SET  name = '%s', value = '%s', date_update = '%s' WHERE id = %s",
+			"UPDATE %s_1_email_queue_settings SET  name = '%s', value = '%s' WHERE id = %s",
 			$cfg->db->prefix,
-			$db->real_escape_string($this->title),
-			$db->real_escape_string($this->content),
-			$this->date_update,
+			$db->real_escape_string($this->name),
+			$db->real_escape_string($this->value)
 			$this->id
 		);
 		return $db->query($query);
@@ -226,14 +225,14 @@ class emailqueue {
 
 		unset($gp);
 
-		$query = sprintf("DELETE FROM %s_email_queue_settings WHERE id = %s", $cfg->db->prefix, $this->id);
+		$query = sprintf("DELETE FROM %s_1_email_queue_settings WHERE id = %s", $cfg->db->prefix, $this->id);
 
 		return $db->query($query);
 	}
 	public static function getSettings () {
 		global $cfg, $db;
 
-		$query = sprintf("SELECT * FROM %s_email_queue_settings WHERE true",
+		$query = sprintf("SELECT * FROM %s_1_email_queue_settings WHERE true",
 			$cfg->db->prefix
 		);
 		$source = $db->query($query);
@@ -259,7 +258,7 @@ class emailqueue {
 
 	public static function returnAllSettings () {
 		global $cfg, $db;
-		$query = sprintf("SELECT * FROM %s_email_queue_settings WHERE true", $cfg->db->prefix);
+		$query = sprintf("SELECT * FROM %s_1_email_queue_settings WHERE true", $cfg->db->prefix);
 		$source = $db->query($query);
 		while ($data = $source->fetch_object()) {
 			if (!isset($toReturn)) {
@@ -312,7 +311,7 @@ class emailqueue {
 		} else {
 			$mail->AddReplyTo($settings["server_email"]);
 		}
-		
+
 		$mail->MsgHTML($message);
 
 		// ADD ATTACH LIST
@@ -334,7 +333,7 @@ class emailqueue {
 		$toReturn = [];
 
 		$query = sprintf(
-			"SELECT * FROM %s_email_queue_settings WHERE id = %s LIMIT %s",
+			"SELECT * FROM %s_1_email_queue_settings WHERE id = %s LIMIT %s",
 			$cfg->db->prefix, $this->id, 1
 		);
 		$source = $db->query($query);

@@ -1,15 +1,14 @@
 <?php
 
-$settings = new emailqueue();
+$settings = new bo3_1_emailqueue();
 $settings->setId($id);
 
 if (isset($_POST["save"])) {
 	if (!empty($_POST["input-name"])) {
-		$settings->setContent($_POST["input-name"], $_POST["input-value"]);
-		$settings->setDateUpdate();
+		$settings->setSetting($_POST["input-name"], $_POST["input-value"]);
 
 		if ($settings->updateSetting()) {
-			header("Location: {$cfg->system->path_bo}/{$lg_s}/0-emailqueue/settings/");
+			header("Location: {$cfg->system->path_bo}/{$lg_s}/1-emailqueue/settings/");
 		}
 	}
 } else {

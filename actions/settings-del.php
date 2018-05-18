@@ -1,11 +1,11 @@
 <?php
 
-$obj = new emailqueue();
+$obj = new bo3_1_emailqueue();
 $obj->setId($id);
 
 if (isset($_POST["input-submit"])) {
 	if ($obj->deleteSetting()) {
-		header("Location: {$cfg->system->path_bo}/{$lg_s}/0-emailqueue/settings/");
+		header("Location: {$cfg->system->path_bo}/{$lg_s}/1-emailqueue/settings/");
 	}
 } else {
 	$returned_entry = $obj->returnOneSetting();

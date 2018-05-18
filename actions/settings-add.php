@@ -2,13 +2,12 @@
 
 if (isset($_POST["save"])) {
 	if (!empty($_POST["name"])) {
-		$settings = new emailqueue();
-		$settings->setContent($_POST["name"], $_POST["value"]);
+		$settings = new bo3_1_emailqueue();
+		$settings->setSetting($_POST["name"], $_POST["value"]);
 		$settings->setDate();
-		$settings->setDateUpdate();
 
 		if ($settings->insertSetting()) {
-			header("Location: {$cfg->system->path_bo}/{$lg_s}/0-emailqueue/settings/");
+			header("Location: {$cfg->system->path_bo}/{$lg_s}/1-emailqueue/settings/");
 		}
 	}
 }
