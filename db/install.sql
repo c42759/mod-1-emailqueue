@@ -25,7 +25,9 @@ INSERT INTO `{c2r-prefix}_1_email_queue_settings` (`name`, `value`) VALUES
 ('server_password', 'yourpassword'),
 ('server_port', 'connection-port eg.: 25'),
 ('server_secure', 'connection-type eg.: plain'),
-('server_debug', '1');
+('server_debug', '1'),
+('default_subject', 'Write here Default Subject')
+('default_content', 'Write here Default Content, use HTML if you want');
 
 CREATE TABLE `{c2r-prefix}_1_email_queue` (
 	`id` int(11) NOT NULL,
