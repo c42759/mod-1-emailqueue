@@ -102,7 +102,7 @@ class c1_emailqueue {
 	public function delete() {
 		global $cfg, $db, $authData;
 
-		$email = new emailqueue();
+		$email = new c1_emailqueue();
 		$email->setId($this->id);
 		$email_obj = $email->returnOneEntry();
 
@@ -212,7 +212,7 @@ class c1_emailqueue {
 	public function deleteSetting () {
 		global $cfg, $db, $authData;
 
-		$gp = new emailqueue();
+		$gp = new c1_emailqueue();
 		$gp->setId($this->id);
 		$gp = $gp->returnOneSetting();
 
