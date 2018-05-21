@@ -4,10 +4,10 @@ $cfg->mdl = new stdClass();
 $cfg->mdl->name = "Email Queue";
 $cfg->mdl->folder = "mod-1-emailqueue";
 $cfg->mdl->path = "{$cfg->system->path_bo}/modules/{$cfg->mdl->folder}/";
-$cfg->mdl->version = "0.0.7";
+$cfg->mdl->version = "0.0.8";
 $cfg->mdl->developer = "Carlos Santos";
 $cfg->mdl->contact = "carlos@one-shift.com";
-$cfg->mdl->dbTables = ["email_queue"];
+$cfg->mdl->dbTables = ["1_email_queue_settings", "1_email_queue"];
 
 // load language for module
 if (file_exists("modules/{$cfg->mdl->folder}/languages/{$lg_s}.ini")) {
