@@ -1,6 +1,6 @@
 <?php
 
-$settings = bo3_1_emailqueue::getSettings();
+$settings = c1_emailqueue::getSettings();
 
 $query = sprintf(
 	"SELECT * FROM %s_1_email_queue WHERE status = %s AND priority > %s ORDER BY %s LIMIT %s",
@@ -24,7 +24,7 @@ while ($data = $source->fetch_object()) {
 	$data->bcc = explode(",", $data->bcc);
 	$data->attachments = !empty($data->attachments) ? json_decode($data->attachments) : [];
 
-	$send = bo3_1_emailqueue::sendEmail($settings, $data->to, $data->cc, $data->bcc, (isset($settings["reply_to"]) ? $settings["reply_to"] : FALSE), $data->subject, $data->content, $data->attachments);
+	$send = c1_emailqueue::sendEmail($settings, $data->to, $data->cc, $data->bcc, (isset($settings["reply_to"]) ? $settings["reply_to"] : FALSE), $data->subject, $data->content, $data->attachments);
 
 	if ($send) {
 		// UPDATE QUEUE STATUS TO TRUE

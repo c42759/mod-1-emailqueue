@@ -1,6 +1,6 @@
 <?php
 
-$settings = new bo3_1_emailqueue();
+$settings = new c1_emailqueue();
 $settings->setId($id);
 
 if (isset($_POST["save"])) {

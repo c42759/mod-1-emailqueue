@@ -1,6 +1,6 @@
 <?php
 
-$obj = new bo3_1_emailqueue();
+$obj = new c1_emailqueue();
 $obj->setId($id);
 
 if (isset($_POST["input-submit"])) {

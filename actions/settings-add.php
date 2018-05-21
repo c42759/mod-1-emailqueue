@@ -2,7 +2,7 @@
 
 if (isset($_POST["save"])) {
 	if (!empty($_POST["name"])) {
-		$settings = new bo3_1_emailqueue();
+		$settings = new c1_emailqueue();
 		$settings->setSetting($_POST["name"], $_POST["value"]);
 		$settings->setDate();
 
