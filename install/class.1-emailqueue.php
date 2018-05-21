@@ -1,6 +1,6 @@
 <?php
 
-class bo3_1_emailqueue {
+class c1_emailqueue {
 	protected $id;
 	protected $from;
 	protected $to;
@@ -204,7 +204,7 @@ class bo3_1_emailqueue {
 			"UPDATE %s_1_email_queue_settings SET  name = '%s', value = '%s' WHERE id = %s",
 			$cfg->db->prefix,
 			$db->real_escape_string($this->name),
-			$db->real_escape_string($this->value)
+			$db->real_escape_string($this->value),
 			$this->id
 		);
 		return $db->query($query);
