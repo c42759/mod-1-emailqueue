@@ -1,3 +1,7 @@
+# Mod Email Queue
+[for BO3-BOzon](https://github.com/One-Shift/BO3-BOzon)
+
+
 ### Windows
 
 #### Schedule Task
@@ -28,5 +32,3 @@ Arguments: ```C:/xampp/htdocs/backoffice/cron/mod-emailqueue-cron.php```
 ```* * * * * php -f /opt/lampp/htdocs/backoffice/cron/mod-emailqueue-cron.php```
 
 ### Mac OS
-
-[for BO3-BOzon](https://github.com/One-Shift/BO3-BOzon)

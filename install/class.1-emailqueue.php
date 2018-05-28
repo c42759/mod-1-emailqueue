@@ -140,7 +140,7 @@ class c1_emailqueue {
 		$source = $db->query($query);
 
 		if ($source->num_rows > 0) {
-			return $source->fecth_objec();
+			return $source->fetch_object();
 		}
 
 		return false;
@@ -335,6 +335,22 @@ class c1_emailqueue {
 		$query = sprintf(
 			"SELECT * FROM %s_1_email_queue_settings WHERE id = %s LIMIT %s",
 			$cfg->db->prefix, $this->id, 1
+		);
+		$source = $db->query($query);
+
+		if ($source->num_rows > 0) {
+			return $source->fetch_object();
+		}
+
+		return false;
+	}
+
+	public function returnSettingByName () {
+		global $cfg, $db;
+
+		$query = sprintf(
+			"SELECT * FROM %s_1_email_queue_settings WHERE name = '%s' LIMIT %s",
+			$cfg->db->prefix, $this->name, 1
 		);
 		$source = $db->query($query);
 
