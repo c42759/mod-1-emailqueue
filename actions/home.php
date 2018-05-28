@@ -1,11 +1,4 @@
 <?php
-
-// $mdl = "{c2r-plg-example}";
-
-// bo3::importPlg("example");
-
-bo3::dump(json_encode(['teste', 'mais', 'testes']));
-
 $email = new c1_emailqueue();
 $db_list = $email->returnAllEntries();
 
