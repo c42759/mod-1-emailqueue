@@ -47,7 +47,7 @@ class c1_emailqueue {
 		$this->content = $d;
 	}
 
-	public function setAttachments($a) {
+	public function setAttachments($a = []) {
 		$this->attachments = json_encode($a);
 	}
 
