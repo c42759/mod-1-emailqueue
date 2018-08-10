@@ -13,7 +13,7 @@ if (isset($_POST["submitInstall"]) && user::isOwner($authData)) {
 	if ($db->multi_query($query) != FALSE) {
 		while ($db->more_results() && $db->next_result()) {;} // flush multi_queries
 
-		copy("modules/{$cfg->mdl->folder}/install/class.1-emailqueue.php", "class/class.1-emailqueue.php");
+		copy("modules/{$cfg->mdl->folder}/install/class.1.emailqueue.php", "class/class.1.emailqueue.php");
 		copy("modules/{$cfg->mdl->folder}/install/mod-1-emailqueue-cron.php", "cron/mod-1-emailqueue-cron.php");
 		copy("modules/{$cfg->mdl->folder}/install/mod-1-emailqueue-api.php", "../pages/mod-1-emailqueue-api.php");
 

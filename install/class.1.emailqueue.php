@@ -294,7 +294,7 @@ class c1_emailqueue {
 
 		$mail->SetFrom($settings["server_username"], $settings["server_email_name"]); // ADD SENDER
 		$mail->Subject = $subject; // ADD SUBJECT
-		$mail->AddAddress($to, "--"); // ADD DESTINATARY
+		$mail->AddAddress($to); // ADD DESTINATARY
 
 		// ADD CC EMAIL LIST
 		foreach($cc as $index => $email) {
