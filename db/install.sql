@@ -1,4 +1,4 @@
-INSERT INTO `{c2r-prefix}_modules` (`name`, `folder`, `code`, `sort`) VALUES ("{c2r-mod-name}", "{c2r-mod-folder}", "{'fa-icon':'fa-envelope','img':'', 'sub-items':{}}", 0);
+INSERT INTO `{c2r-prefix}_modules` (`name`, `folder`, `code`, `sort`) VALUES ("{c2r-mod-name}", "{c2r-mod-folder}", '{\r\n \"fa-icon\": \"fa-envelope\",\r\n \"img\": \"\",\r\n \"sub-items\": {},\r\n \"sidebar\": true,\r\n \"dropdown\": false\r\n}', 0);
 
 CREATE TABLE `{c2r-prefix}_1_email_queue_settings` (
 	`id` int(11) NOT NULL,

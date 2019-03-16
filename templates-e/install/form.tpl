@@ -21,7 +21,7 @@
 			<div class="form-group xs-tacenter sm-tacenter">
 				<button type="submit" class="btn btn-success" name="submitInstall">{c2r-lg-yes}</button>
 				<div class="sm-block15"></div>
-				<a href="{c2r-path-bo}/0/{c2r-lg}/home/" type="button" class="btn btn-danger">{c2r-lg-no}</a>
+				<a href="{c2r-bo-path}/0/{c2r-lg}/home/" type="button" class="btn btn-danger">{c2r-lg-no}</a>
 			</div>
 		</form>
 	</div>

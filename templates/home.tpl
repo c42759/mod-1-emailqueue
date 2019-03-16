@@ -1,12 +1,12 @@
 <div class="row">
 	<div class="col-sm-12 sm-taright">
-		<a href="{c2r-path-bo}/{c2r-lg}/{c2r-module-folder}/add/" class="btn btn-add" role="button">
+		<a href="{c2r-bo-path}/{c2r-lg}/{c2r-module-folder}/add/" class="btn btn-add" role="button">
 			<i class="fa fa-plus" aria-hidden="true"></i>
 			<span class="sm-block15 xs-block15"></span>
 			{c2r-lg-btn-add}
 		</a>
 		<div class="sm-block15"></div>
-		<a href="{c2r-path-bo}/{c2r-lg}/{c2r-module-folder}/settings/" class="btn btn-add" role="button">
+		<a href="{c2r-bo-path}/{c2r-lg}/{c2r-module-folder}/settings/" class="btn btn-add" role="button">
 			<i class="fa fa-cog" aria-hidden="true"></i>
 			<span class="sm-block15 xs-block15"></span>
 			{c2r-lg-btn-settings}

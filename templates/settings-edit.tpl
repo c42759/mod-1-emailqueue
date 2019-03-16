@@ -1,6 +1,6 @@
 <div class="row">
 	<div class="col-md-12">
-		<form action="{c2r-path-bo}/{c2r-lg}/{c2r-module-folder}/settings-edit/{c2r-id}" method="post">
+		<form action="{c2r-bo-path}/{c2r-lg}/{c2r-module-folder}/settings-edit/{c2r-id}" method="post">
 			<div class="row">
 				<div class="col-md-6">
 					<div class="form-group">

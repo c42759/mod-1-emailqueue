@@ -1,6 +1,6 @@
 <div class="row">
 	<div class="col-xs-12 col-sm-12">
-		<form action="{c2r-path-bo}/{c2r-lg}/{c2r-module-folder}/add/" method="post">
+		<form action="{c2r-bo-path}/{c2r-lg}/{c2r-module-folder}/add/" method="post">
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-md-12">
 					<div class="form-group">
