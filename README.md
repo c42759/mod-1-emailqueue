@@ -32,3 +32,62 @@ Arguments: ```C:/xampp/htdocs/backoffice/cron/mod-emailqueue-cron.php```
 ```* * * * * php -f /opt/lampp/htdocs/backoffice/cron/mod-emailqueue-cron.php```
 
 ### Mac OS
+
+
+
+## How I use it
+
+**1)** Start a new object
+
+```PHP
+$email = new c1_emailqueue();
+```
+
+**2)** Get all your email settings,
+
+```PHP
+$settings = c1_emailqueue::getSettings();
+$email->set_field_settings(json_encode($settings));
+```
+
+**2.1)**  You can recreate this ARRAY with other settings for specific cases and give him to email object,
+
+```PHP
+$email->set_field_settings(json_encode($your_settings_array));
+```
+
+**3)** Set all attributes you need,
+
+```PHP
+$email->setFrom($settings['server_email']);
+$email->setTo('target@email.ext');
+$email->setCc('target_2@email.ext; target_3@email.ext'); // not mandatory
+$email->setBcc('target_4@email.ext; target_5@email.ext'); // not mandatory
+$email->setSubject('Give me a subject');
+$email->setContent('Some content here!'); // give him HTML ;) it works very well
+$email->setAttachments([
+    'uploads/file_1.jpg',
+    'uploads/file_2.txt'
+]); // doesn't forget the size limit of your email service
+$email->setPriority(10); // use if you want some priority over other emails on the pool (Default: 0)
+$email->setStatus(); // not mandatory (Default: false or 0)
+```
+
+**4)** Send to the email pool and the *cron* will do the rest.
+
+```PHP
+if ($email->insert()) {
+	// do something, or alert the user with a success message
+} else {
+    // do something, or alert the user with a error message
+    // in this case don't forget, give developer an alert
+}
+```
+
+
+
+## Things for future
+
+- [ ] Update method;
+- [ ] Exceptions;
+- [ ] Data control;
