@@ -48,7 +48,12 @@ class c1_emailqueue {
 	}
 
 	public function setAttachments($a = []) {
-		$this->attachments = json_encode($a);
+		if (is_array($a) && count($a) > 0) {
+			$this->attachments = json_encode($a);
+			return true;
+		}
+
+		return false;
 	}
 
 	public function setPriority($p) {
@@ -72,7 +77,7 @@ class c1_emailqueue {
 		global $cfg, $db;
 
 		$query = sprintf(
-			"INSERT INTO %s_1_email_queue (`from`, `to`, `cc`, `bcc`, `subject`, `content`, `attachments`, `priority`, `status`, `date`) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')",
+			"INSERT INTO %s_1_email_queue (`from`, `to`, `cc`, `bcc`, `subject`, `content`, `attachments`, `priority`, `status`) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')",
 			$cfg->db->prefix,
 			$db->real_escape_string($this->from),
 			$db->real_escape_string($this->to),
@@ -82,14 +87,14 @@ class c1_emailqueue {
 			$db->real_escape_string($this->content),
 			$db->real_escape_string($this->attachments),
 			$this->priority,
-			$this->status,
-			$this->date
+			$this->status
 		);
 
 		if ($db->query($query)) {
 			$this->id = $db->insert_id;
 			return true;
 		}
+
 		return false;
 	}
 
@@ -185,12 +190,13 @@ class c1_emailqueue {
 
 	public function insertSetting () {
 		global $cfg, $db;
-		$query = sprintf("INSERT INTO %s_1_email_queue_settings (`name`, `value`, `date`) VALUES ('%s', '%s', '%s')",
+
+		$query = sprintf("INSERT INTO %s_1_email_queue_settings (`name`, `value`) VALUES ('%s', '%s')",
 			$cfg->db->prefix,
 			$db->real_escape_string($this->name),
-			$db->real_escape_string($this->value),
-			$this->date
+			$db->real_escape_string($this->value)
 		);
+
 		if ($db->query($query)){
 			return true;
 		}
@@ -209,6 +215,7 @@ class c1_emailqueue {
 		);
 		return $db->query($query);
 	}
+
 	public function deleteSetting () {
 		global $cfg, $db, $authData;
 
@@ -229,6 +236,7 @@ class c1_emailqueue {
 
 		return $db->query($query);
 	}
+
 	public static function getSettings () {
 		global $cfg, $db;
 
@@ -258,8 +266,10 @@ class c1_emailqueue {
 
 	public static function returnAllSettings () {
 		global $cfg, $db;
+
 		$query = sprintf("SELECT * FROM %s_1_email_queue_settings WHERE true", $cfg->db->prefix);
 		$source = $db->query($query);
+
 		while ($data = $source->fetch_object()) {
 			if (!isset($toReturn)) {
 				$toReturn = [];
@@ -326,10 +336,13 @@ class c1_emailqueue {
 		if (!$mail->Send()) {
 			return FALSE;
 		}
+
 		return TRUE;
 	}
+
 	public function returnOneSetting () {
 		global $cfg, $db;
+
 		$toReturn = [];
 
 		$query = sprintf(
